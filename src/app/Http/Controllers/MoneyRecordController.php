@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MoneyRecord;
 use Illuminate\Http\Request;
 
 class MoneyRecordController extends Controller
 {
     public function index()
     {
-        return view('money-records.index');
+        $moneyRecords = MoneyRecord::latest()->get();
+
+        return view('money-records.index', compact('moneyRecords'));
     }
 
     public function create()
@@ -18,6 +21,14 @@ class MoneyRecordController extends Controller
 
     public function store(Request $request)
     {
+        MoneyRecord::create([
+            'type' => $request->type,
+            'amount' => $request->amount,
+            'record_date' => $request->record_date,
+            'note' => $request->note,
+            'is_received' => $request->has('is_received'),
+        ]);
+
         return redirect()->route('money-records.index');
     }
 }
