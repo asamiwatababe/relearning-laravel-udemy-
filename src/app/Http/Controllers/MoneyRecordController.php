@@ -45,6 +45,8 @@ class MoneyRecordController extends Controller
             'is_received' => $request->has('is_received'),
         ]);
 
-        return redirect()->route('money-records.index');
+        return redirect()
+            ->route('money-records.index')
+            ->with('success', 'お金記録を登録しました。');
     }
 }
