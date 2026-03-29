@@ -5,19 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MoneyRecord extends Model
+class ChoreRecord extends Model
 {
     protected $fillable = [
         'user_id',
-        'type',
-        'amount',
+        'chore_id',
         'record_date',
-        'note',
-        'is_received',
+        'points',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function chore(): BelongsTo
+    {
+        return $this->belongsTo(Chore::class);
     }
 }

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'お金管理アプリ')</title>
+
     <style>
         body {
             margin: 0;
@@ -128,9 +129,46 @@
             border-radius: 12px;
             margin-bottom: 20px;
         }
+
+        @media screen and (max-width: 767px) {
+            .app-header-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .app-logo {
+                text-align: center;
+            }
+
+            .app-nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .app-nav>a,
+            .nav-button {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+
+            .page-container {
+                margin: 24px auto;
+                padding: 0 12px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
     </style>
 
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body>
@@ -139,14 +177,19 @@
             <a href="{{ route('money-records.index') }}" class="app-logo">お金管理アプリ</a>
             <nav class="app-nav">
                 <a href="{{ route('money-records.index') }}">一覧</a>
-                <a href="{{ route('money-records.create') }}">新規登録</a>
-            </nav>
+                <a href="{{ route('money-records.create') }}">お小遣い登録</a>
+                <a href="{{ route('users.create') }}">ユーザー登録</a>
+                <a href="{{ route('chore-records.index') }}">お手伝いポイント一覧へ</a>
+        </div>
+        </nav>
         </div>
     </header>
 
     <main class="page-container">
         @yield('content')
     </main>
+
+    @stack('scripts')
 </body>
 
 </html>

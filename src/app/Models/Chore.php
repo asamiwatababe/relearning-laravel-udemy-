@@ -4,18 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\ChoreRecord;
 
-class User extends Model
+class Chore extends Model
 {
     protected $fillable = [
+        'category',
         'name',
+        'points',
     ];
-
-    public function moneyRecords(): HasMany
-    {
-        return $this->hasMany(MoneyRecord::class);
-    }
 
     public function choreRecords(): HasMany
     {
