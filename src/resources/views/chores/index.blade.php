@@ -19,9 +19,11 @@
             <h1 class="page-title">📋 お手伝いリスト</h1>
             <p class="page-subtitle">登録されているお手伝いの種類とポイントを管理します。</p>
         </div>
+        @if (session('is_admin'))
         <div class="header-actions">
             <a href="{{ route('chores.create') }}" class="button">➕ 新規登録</a>
         </div>
+        @endif
     </div>
 
     <table>
@@ -30,7 +32,9 @@
                 <th>📂 カテゴリ</th>
                 <th>🧹 お手伝い名</th>
                 <th>⭐ ポイント</th>
+                @if (session('is_admin'))
                 <th>⚙️ 操作</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -39,6 +43,7 @@
                 <td>{{ $chore->category }}</td>
                 <td>{{ $chore->name }}</td>
                 <td>{{ $chore->points }}pt</td>
+                @if (session('is_admin'))
                 <td>
                     <div class="action-buttons">
                         <a href="{{ route('chores.edit', $chore) }}" class="button button-secondary">✏️ 編集</a>
@@ -51,10 +56,11 @@
                         </form>
                     </div>
                 </td>
+                @endif
             </tr>
             @empty
             <tr>
-                <td colspan="4" class="empty-message">まだお手伝いが登録されていません。</td>
+                <td colspan="{{ session('is_admin') ? 4 : 3 }}" class="empty-message">まだお手伝いが登録されていません。</td>
             </tr>
             @endforelse
         </tbody>

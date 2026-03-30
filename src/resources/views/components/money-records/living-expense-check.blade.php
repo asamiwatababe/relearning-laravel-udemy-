@@ -6,21 +6,20 @@
     </div>
 
     @if (session('is_admin'))
-        <button
-            type="button"
-            id="living-expense-toggle-button"
-            class="button {{ $currentMonthLivingExpense->is_received ? 'toggle-back-button' : 'received-button' }}"
-            data-url="{{ route('money-records.toggle-received-ajax', $currentMonthLivingExpense) }}"
-        >
-            {{ $currentMonthLivingExpense->is_received ? '未受け取りに戻す' : '受け取り済にする' }}
-        </button>
+    <button
+        type="button"
+        id="living-expense-toggle-button"
+        class="button {{ $currentMonthLivingExpense->is_received ? 'toggle-back-button' : 'received-button' }}"
+        data-url="{{ route('money-records.toggle-received-ajax', $currentMonthLivingExpense) }}">
+        {{ $currentMonthLivingExpense->is_received ? '受取済み' : '未受け取り' }}
+    </button>
     @else
-        <div class="living-expense-status">
-            @if ($currentMonthLivingExpense->is_received)
-                <span class="status-badge status-received">✅ 受け取り済</span>
-            @else
-                <span class="status-badge status-pending">⏳ 未受け取り</span>
-            @endif
-        </div>
+    <div class="living-expense-status">
+        @if ($currentMonthLivingExpense->is_received)
+        <span class="status-badge status-received">✅ 受け取り済</span>
+        @else
+        <span class="status-badge status-pending">⏳ 未受け取り</span>
+        @endif
+    </div>
     @endif
 </div>

@@ -20,6 +20,7 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 // ── 閲覧のみ（全員アクセス可） ────────────────────────
 Route::get('/money-records', [MoneyRecordController::class, 'index'])->name('money-records.index');
 Route::get('/chore-records', [ChoreRecordController::class, 'index'])->name('chore-records.index');
+Route::get('/chores', [ChoreController::class, 'index'])->name('chores.index');
 
 // ── 管理者のみ ────────────────────────────────────────
 Route::middleware('admin')->group(function () {
@@ -42,8 +43,7 @@ Route::middleware('admin')->group(function () {
     Route::patch('/money-records/{moneyRecord}/toggle-received', [MoneyRecordController::class, 'toggleReceived'])->name('money-records.toggle-received');
     Route::patch('/money-records/{moneyRecord}/toggle-received-ajax', [MoneyRecordController::class, 'toggleReceivedAjax'])->name('money-records.toggle-received-ajax');
 
-    // お手伝いリスト管理
-    Route::get('/chores', [ChoreController::class, 'index'])->name('chores.index');
+    // お手伝いリスト管理（登録・編集・削除）
     Route::get('/chores/create', [ChoreController::class, 'create'])->name('chores.create');
     Route::post('/chores', [ChoreController::class, 'store'])->name('chores.store');
     Route::get('/chores/{chore}/edit', [ChoreController::class, 'edit'])->name('chores.edit');

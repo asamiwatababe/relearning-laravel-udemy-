@@ -301,6 +301,7 @@
             <nav class="app-nav" id="app-nav">
                 <a href="{{ route('money-records.index') }}">📋 お小遣い一覧</a>
                 <a href="{{ route('chore-records.index') }}">🧹 お手伝いポイント</a>
+                <a href="{{ route('chores.index') }}">📋 お手伝いリスト</a>
                 @if (session('is_admin'))
                     <a href="{{ route('admin.index') }}">⚙️ 管理画面</a>
                     <form action="{{ route('admin.logout') }}" method="POST" style="display:inline;">

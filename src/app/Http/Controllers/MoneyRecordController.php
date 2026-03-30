@@ -36,12 +36,12 @@ class MoneyRecordController extends Controller
         $users = User::with([
             'moneyRecords' => function ($q) use ($currentDate) {
                 $q->where('type', 'allowance')
-                  ->whereYear('record_date', $currentDate->year)
-                  ->whereMonth('record_date', $currentDate->month);
+                    ->whereYear('record_date', $currentDate->year)
+                    ->whereMonth('record_date', $currentDate->month);
             },
             'choreRecords' => function ($q) use ($currentDate) {
                 $q->whereYear('record_date', $currentDate->year)
-                  ->whereMonth('record_date', $currentDate->month);
+                    ->whereMonth('record_date', $currentDate->month);
             },
         ])->latest()->get();
 
@@ -152,7 +152,7 @@ class MoneyRecordController extends Controller
             ->with('success');
     }
 
-        public function toggleReceivedAjax(MoneyRecord $moneyRecord)
+    public function toggleReceivedAjax(MoneyRecord $moneyRecord)
     {
         if ($moneyRecord->type !== 'living_expense') {
             return response()->json([
@@ -168,7 +168,7 @@ class MoneyRecordController extends Controller
         return response()->json([
             'success' => true,
             'is_received' => $moneyRecord->is_received,
-            'button_text' => $moneyRecord->is_received ? '未受け取り' : '受け取り済',
+            'button_text' => $moneyRecord->is_received ? '受取済み' : '未受け取り',
         ]);
     }
 }
