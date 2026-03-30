@@ -26,8 +26,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 # PHP 設定（本番用）
 COPY infra/php/php.prod.ini /usr/local/etc/php/php.ini
 
-# Nginx 設定
-COPY infra/nginx/default.conf /etc/nginx/conf.d/default.conf
+# Nginx 設定（テンプレート。起動時にenvsubstで展開）
+COPY infra/nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
 
 # supervisord 設定
 COPY infra/nginx/supervisord.conf /etc/supervisord.conf
