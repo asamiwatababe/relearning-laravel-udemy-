@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('chore_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('chore_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id');
+            $table->foreignId('chore_id');
             $table->date('record_date');
             $table->integer('points');
             $table->timestamps();

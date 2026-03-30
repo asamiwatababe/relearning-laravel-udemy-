@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('money_records', function (Blueprint $table) {
             if (! Schema::hasColumn('money_records', 'user_id')) {
-                $table->foreignId('user_id')->nullable()->after('id')->constrained()->nullOnDelete();
+                $table->foreignId('user_id')->nullable()->after('id');
             }
         });
     }
@@ -19,7 +19,7 @@ return new class extends Migration
     {
         Schema::table('money_records', function (Blueprint $table) {
             if (Schema::hasColumn('money_records', 'user_id')) {
-                $table->dropConstrainedForeignId('user_id');
+                $table->dropColumn('user_id');
             }
         });
     }
