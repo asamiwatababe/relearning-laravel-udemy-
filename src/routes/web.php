@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChoreRecordController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\ChoreController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,6 +41,14 @@ Route::middleware('admin')->group(function () {
     Route::delete('/money-records/{moneyRecord}', [MoneyRecordController::class, 'destroy'])->name('money-records.destroy');
     Route::patch('/money-records/{moneyRecord}/toggle-received', [MoneyRecordController::class, 'toggleReceived'])->name('money-records.toggle-received');
     Route::patch('/money-records/{moneyRecord}/toggle-received-ajax', [MoneyRecordController::class, 'toggleReceivedAjax'])->name('money-records.toggle-received-ajax');
+
+    // お手伝いリスト管理
+    Route::get('/chores', [ChoreController::class, 'index'])->name('chores.index');
+    Route::get('/chores/create', [ChoreController::class, 'create'])->name('chores.create');
+    Route::post('/chores', [ChoreController::class, 'store'])->name('chores.store');
+    Route::get('/chores/{chore}/edit', [ChoreController::class, 'edit'])->name('chores.edit');
+    Route::put('/chores/{chore}', [ChoreController::class, 'update'])->name('chores.update');
+    Route::delete('/chores/{chore}', [ChoreController::class, 'destroy'])->name('chores.destroy');
 
     // お手伝い管理（登録・編集・削除）
     Route::get('/chore-records/create', [ChoreRecordController::class, 'create'])->name('chore-records.create');

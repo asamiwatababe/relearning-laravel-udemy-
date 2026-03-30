@@ -29,6 +29,7 @@
         <a href="{{ route('chore-records.index') }}" class="button" style="background:linear-gradient(135deg,#43e97b,#38f9d7); color:#1e1b4b;">🧹 お手伝い一覧</a>
         <a href="{{ route('chore-records.create') }}" class="button" style="background:linear-gradient(135deg,#fa8231,#f9ca24); color:#1e1b4b;">➕ お手伝い登録</a>
         <a href="{{ route('users.index') }}" class="button" style="background:linear-gradient(135deg,#f43f5e,#f97316);">👥 ユーザー管理</a>
+        <a href="{{ route('chores.index') }}" class="button" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">📋 お手伝いリスト</a>
     </div>
 </div>
 
