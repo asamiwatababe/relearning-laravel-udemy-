@@ -13,7 +13,7 @@ class ChoreRecordController extends Controller
     public function index(Request $request)
     {
         $selectedMonth = $request->input('month', now()->format('Y-m'));
-        $currentDate = Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth();
+        $currentDate = Carbon::parse($selectedMonth . '-01');
 
         $users = User::with(['choreRecords' => function ($query) use ($currentDate) {
             $query->whereYear('record_date', $currentDate->year)
@@ -42,11 +42,12 @@ class ChoreRecordController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id'],
             'chore_id' => ['required', 'exists:chores,id'],
-            'record_date' => ['required', 'date'],
+            'record_date' => ['required', 'date', 'before_or_equal:today'],
         ], [
             'user_id.required' => 'ユーザーを選択してください。',
             'chore_id.required' => 'お手伝いを選択してください。',
             'record_date.required' => '日付を入力してください。',
+            'record_date.before_or_equal' => '日付は今日以前を入力してください。',
         ]);
 
         ChoreRecord::create([
@@ -74,11 +75,12 @@ class ChoreRecordController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id'],
             'chore_id' => ['required', 'exists:chores,id'],
-            'record_date' => ['required', 'date'],
+            'record_date' => ['required', 'date', 'before_or_equal:today'],
         ], [
             'user_id.required' => 'ユーザーを選択してください。',
             'chore_id.required' => 'お手伝いを選択してください。',
             'record_date.required' => '日付を入力してください。',
+            'record_date.before_or_equal' => '日付は今日以前を入力してください。',
         ]);
 
         $choreRecord->update([

@@ -1,5 +1,5 @@
 <div class="summary-box calendar-box">
-    <div class="summary-label">表示月</div>
+    <div class="summary-label">📅 表示月</div>
 
     <form method="GET" action="{{ route('money-records.index') }}">
         <input

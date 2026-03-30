@@ -1,21 +1,26 @@
 <div class="summary-box living-expense-box">
-    <div class="summary-label">生活費チェック</div>
+    <div class="summary-label">🏠 生活費チェック</div>
 
     <div class="summary-value" id="living-expense-amount">
         {{ number_format($currentMonthLivingExpense->amount) }}円
     </div>
 
-    <p
-        id="living-expense-status"
-        class="{{ $currentMonthLivingExpense->is_received ? 'status-ok' : 'status-ng' }}">
-        {{ $currentMonthLivingExpense->is_received ? '受取済み' : '未確認' }}
-    </p>
-
-    <button
-        type="button"
-        id="living-expense-toggle-button"
-        class="button {{ $currentMonthLivingExpense->is_received ? 'toggle-back-button' : 'received-button' }}"
-        data-url="{{ route('money-records.toggle-received-ajax', $currentMonthLivingExpense) }}">
-        {{ $currentMonthLivingExpense->is_received ? '未確認に戻す' : '受け取った' }}
-    </button>
+    @if (session('is_admin'))
+        <button
+            type="button"
+            id="living-expense-toggle-button"
+            class="button {{ $currentMonthLivingExpense->is_received ? 'toggle-back-button' : 'received-button' }}"
+            data-url="{{ route('money-records.toggle-received-ajax', $currentMonthLivingExpense) }}"
+        >
+            {{ $currentMonthLivingExpense->is_received ? '未受け取りに戻す' : '受け取り済にする' }}
+        </button>
+    @else
+        <div class="living-expense-status">
+            @if ($currentMonthLivingExpense->is_received)
+                <span class="status-badge status-received">✅ 受け取り済</span>
+            @else
+                <span class="status-badge status-pending">⏳ 未受け取り</span>
+            @endif
+        </div>
+    @endif
 </div>

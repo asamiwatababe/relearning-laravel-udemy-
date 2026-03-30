@@ -4,6 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/money-records/index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/shared.css') }}">
 @endpush
 
 @section('content')
@@ -16,8 +17,13 @@
 
     <div class="header">
         <div>
-            <h1 class="page-title">お金管理一覧</h1>
+            <h1 class="page-title">💰 お金管理一覧</h1>
         </div>
+        @if (session('is_admin'))
+        <div class="header-actions">
+            <a href="{{ route('money-records.create') }}" class="button">➕ お小遣い登録</a>
+        </div>
+        @endif
     </div>
 
     <div class="summary">
@@ -25,14 +31,37 @@
         <x-money-records.month-picker :selectedMonth="$selectedMonth" />
     </div>
 
+    {{-- ユーザー別今月のサマリー --}}
+    @if ($users->isNotEmpty())
+    <h2 class="section-title">👤 ユーザー別今月のサマリー</h2>
+    <div class="user-cards-grid" style="margin-bottom:28px;">
+        @foreach ($users as $user)
+        @php
+            $allowance = $user->moneyRecords->sum('amount');
+            $points    = $user->choreRecords->sum('points');
+        @endphp
+        <div class="user-card">
+            <span class="user-card-avatar">🧒</span>
+            <div class="user-card-name">{{ $user->name }}</div>
+            <div class="user-card-stats">
+                <span class="user-card-badge badge-purple">💴 {{ number_format($allowance) }}円</span>
+                <span class="user-card-badge badge-green">⭐ {{ $points }}pt</span>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @endif
+
     <table>
         <thead>
             <tr>
-                <th>ユーザー</th>
-                <th>金額</th>
-                <th>日付</th>
-                <th>メモ</th>
-                <th>操作</th>
+                <th>👤 ユーザー</th>
+                <th>💴 金額</th>
+                <th>📅 日付</th>
+                <th>📝 メモ</th>
+                @if (session('is_admin'))
+                <th>⚙️ 操作</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -42,21 +71,22 @@
                 <td>{{ number_format($moneyRecord->amount) }}円</td>
                 <td>{{ $moneyRecord->record_date }}</td>
                 <td>{{ $moneyRecord->note }}</td>
+                @if (session('is_admin'))
                 <td>
                     <div class="action-buttons">
-                        <a href="{{ route('money-records.edit', $moneyRecord) }}" class="button button-secondary">編集</a>
-
+                        <a href="{{ route('money-records.edit', $moneyRecord) }}" class="button button-secondary">✏️ 編集</a>
                         <form action="{{ route('money-records.destroy', $moneyRecord) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="button delete-button">削除</button>
+                            <button type="submit" class="button delete-button">🗑️ 削除</button>
                         </form>
                     </div>
                 </td>
+                @endif
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="empty-message">この月のお小遣い記録はまだありません。</td>
+                <td colspan="{{ session('is_admin') ? 5 : 4 }}" class="empty-message">この月のお小遣い記録はまだありません。</td>
             </tr>
             @endforelse
         </tbody>
@@ -65,10 +95,12 @@
 @endsection
 
 @push('scripts')
+@if (session('is_admin'))
 <script>
     window.moneyRecordToggleConfig = {
         csrfToken: '{{ csrf_token() }}'
     };
 </script>
 <script src="{{ asset('js/money-records/index.js') }}"></script>
+@endif
 @endpush

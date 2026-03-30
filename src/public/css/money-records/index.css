@@ -1,108 +1,249 @@
+/* ── Page Header ── */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
+/* ── Summary Cards ── */
 .summary {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 28px;
 }
 
 .summary-box {
-    background: #f8fafc;
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 22px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 生活費カード — purple gradient */
+.living-expense-box {
+    background: linear-gradient(135deg, #6c63ff 0%, #c471ed 100%);
+    color: #fff;
+    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 24px rgba(108, 99, 255, 0.35);
+}
+
+.living-expense-box::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 110px;
+    height: 110px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.living-expense-box .summary-label {
+    color: rgba(255,255,255,0.8);
+}
+
+.living-expense-box .summary-value {
+    color: #fff;
+}
+
+/* 月選択カード — blue gradient */
+.calendar-box {
+    background: linear-gradient(135deg, #43b7fe 0%, #6c63ff 100%);
+    color: #fff;
+    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 24px rgba(67, 183, 254, 0.35);
+}
+
+.calendar-box::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 90px;
+    height: 90px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.calendar-box .summary-label {
+    color: rgba(255,255,255,0.8);
 }
 
 .summary-label {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
 }
 
 .summary-value {
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
-.calendar-box,
-.living-expense-box {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
+/* month input inside blue card */
 .month-input {
     width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #d1d5db;
+    padding: 10px 14px;
+    border: 2px solid rgba(255,255,255,0.4);
     border-radius: 12px;
-    font-size: 16px;
-    box-sizing: border-box;
+    font-size: 15px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+}
+
+.month-input:focus {
+    border-color: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.3);
 }
 
 .calendar-note {
     margin: 0;
-    color: #666;
-    font-size: 13px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
 }
 
+/* Status badges */
 .status-ok {
-    color: #16a34a;
-    font-weight: bold;
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 999px;
 }
 
 .status-ng {
-    color: #dc2626;
-    font-weight: bold;
+    display: inline-block;
+    background: rgba(255,100,100,0.3);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 999px;
 }
 
+/* Toggle buttons inside cards */
 .received-button {
-    background: #16a34a;
+    background: rgba(255,255,255,0.25) !important;
+    color: #fff !important;
+    border: 2px solid rgba(255,255,255,0.5) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(4px);
+}
+
+.received-button:hover {
+    background: rgba(255,255,255,0.38) !important;
+    transform: translateY(-1px);
+}
+
+.living-expense-status {
+    margin-top: 4px;
+}
+
+.status-badge {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 999px;
+}
+
+.status-received {
+    background: rgba(255,255,255,0.25);
     color: #fff;
-    width: 100%;
+}
+
+.status-pending {
+    background: rgba(255,200,100,0.3);
+    color: #fff;
 }
 
 .toggle-back-button {
-    background: #f59e0b;
-    color: #fff;
-    width: 100%;
+    background: rgba(255, 200, 100, 0.35) !important;
+    color: #fff !important;
+    border: 2px solid rgba(255,220,130,0.6) !important;
+    box-shadow: none !important;
 }
 
+.toggle-back-button:hover {
+    background: rgba(255, 200, 100, 0.5) !important;
+}
+
+/* ── Table ── */
 table {
     width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    overflow: hidden;
-    border-radius: 16px;
+    border-collapse: separate;
+    border-spacing: 0 6px;
 }
 
-th,
-td {
-    padding: 16px 14px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
+thead tr {
+    background: transparent;
 }
 
 th {
-    background: #f3f4f6;
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #8b8ba7;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: transparent;
+}
+
+tbody tr {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.07);
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(108, 99, 255, 0.14);
+}
+
+td {
+    padding: 16px 14px;
+    text-align: center;
     font-size: 14px;
+    border: none;
 }
 
-tr:last-child td {
-    border-bottom: none;
+tbody td:first-child {
+    border-radius: 14px 0 0 14px;
 }
 
+tbody td:last-child {
+    border-radius: 0 14px 14px 0;
+}
+
+/* Amount column — highlight */
+tbody td:nth-child(2) {
+    font-weight: 800;
+    font-size: 15px;
+    color: #6c63ff;
+}
+
+/* ── Action Buttons ── */
 .action-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    /* flex-wrap: wrap; */
 }
 
 .action-buttons a,
@@ -116,30 +257,40 @@ tr:last-child td {
 }
 
 .action-buttons .button {
-    height: 44px;
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
 }
 
 .delete-button {
-    background: #ef4444;
+    background: linear-gradient(135deg, #f43f5e, #fb7185) !important;
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3) !important;
     color: #fff;
 }
 
-.empty-message {
-    text-align: center;
-    color: #777;
-    padding: 30px 0 10px;
+.delete-button:hover {
+    box-shadow: 0 6px 16px rgba(244, 63, 94, 0.45) !important;
 }
 
+/* ── Empty State ── */
+.empty-message {
+    text-align: center;
+    color: #b0b0c8;
+    padding: 48px 0 20px;
+    font-size: 15px;
+}
+
+/* ── Header actions ── */
 .header-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
 }
 
+/* ── Mobile ── */
 @media screen and (max-width: 767px) {
     .header {
         flex-direction: column;
@@ -154,7 +305,6 @@ tr:last-child td {
 
     .header-actions .button {
         width: 100%;
-        box-sizing: border-box;
     }
 
     .summary {
@@ -162,43 +312,52 @@ tr:last-child td {
     }
 
     .summary-box {
-        padding: 16px;
+        padding: 18px 16px;
     }
 
     .summary-value {
-        font-size: 22px;
-    }
-
-    .calendar-box,
-    .living-expense-box {
-        gap: 10px;
+        font-size: 24px;
     }
 
     table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+        border-spacing: 0;
     }
 
-    th,
-    td {
+    tbody tr {
+        border-radius: 0;
+        box-shadow: none;
+        border-bottom: 1px solid #f0f0f8;
+    }
+
+    tbody tr:hover {
+        transform: none;
+    }
+
+    tbody td:first-child,
+    tbody td:last-child {
+        border-radius: 0;
+    }
+
+    th, td {
         padding: 12px 10px;
-        font-size: 14px;
     }
 
     .action-buttons {
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
     }
 
     .action-buttons a,
     .action-buttons form {
-        flex: none;
         width: 100%;
     }
 
     .action-buttons .button {
         width: 100%;
+        height: 40px;
     }
 
     .empty-message {

@@ -12,7 +12,7 @@ class MoneyRecordController extends Controller
     public function index(Request $request)
     {
         $selectedMonth = $request->input('month', now()->format('Y-m'));
-        $currentDate = Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth();
+        $currentDate = Carbon::parse($selectedMonth . '-01');
 
         $currentMonthLivingExpense = MoneyRecord::firstOrCreate(
             [
@@ -33,10 +33,23 @@ class MoneyRecordController extends Controller
             ->latest('record_date')
             ->get();
 
+        $users = User::with([
+            'moneyRecords' => function ($q) use ($currentDate) {
+                $q->where('type', 'allowance')
+                  ->whereYear('record_date', $currentDate->year)
+                  ->whereMonth('record_date', $currentDate->month);
+            },
+            'choreRecords' => function ($q) use ($currentDate) {
+                $q->whereYear('record_date', $currentDate->year)
+                  ->whereMonth('record_date', $currentDate->month);
+            },
+        ])->latest()->get();
+
         return view('money-records.index', compact(
             'moneyRecords',
             'currentMonthLivingExpense',
-            'selectedMonth'
+            'selectedMonth',
+            'users',
         ));
     }
 
@@ -52,7 +65,7 @@ class MoneyRecordController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id'],
             'amount' => ['required', 'integer', 'min:1'],
-            'record_date' => ['required', 'date'],
+            'record_date' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'max:1000'],
         ], [
             'user_id.required' => 'ユーザーを選択してください。',
@@ -62,6 +75,7 @@ class MoneyRecordController extends Controller
             'amount.min' => '金額は1円以上で入力してください。',
             'record_date.required' => '日付を入力してください。',
             'record_date.date' => '正しい日付を入力してください。',
+            'record_date.before_or_equal' => '日付は今日以前を入力してください。',
             'note.max' => 'メモは1000文字以内で入力してください。',
         ]);
 
@@ -76,7 +90,7 @@ class MoneyRecordController extends Controller
 
         return redirect()
             ->route('money-records.index')
-            ->with('success', 'お小遣いを登録しました。');
+            ->with('success');
     }
 
     public function edit(MoneyRecord $moneyRecord)
@@ -99,7 +113,7 @@ class MoneyRecordController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id'],
             'amount' => ['required', 'integer', 'min:1'],
-            'record_date' => ['required', 'date'],
+            'record_date' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'max:1000'],
         ], [
             'user_id.required' => 'ユーザーを選択してください。',
@@ -109,6 +123,7 @@ class MoneyRecordController extends Controller
             'amount.min' => '金額は1円以上で入力してください。',
             'record_date.required' => '日付を入力してください。',
             'record_date.date' => '正しい日付を入力してください。',
+            'record_date.before_or_equal' => '日付は今日以前を入力してください。',
             'note.max' => 'メモは1000文字以内で入力してください。',
         ]);
 
@@ -121,7 +136,7 @@ class MoneyRecordController extends Controller
 
         return redirect()
             ->route('money-records.index')
-            ->with('success', 'お小遣いを更新しました。');
+            ->with('success');
     }
 
     public function destroy(MoneyRecord $moneyRecord)
@@ -137,7 +152,7 @@ class MoneyRecordController extends Controller
             ->with('success');
     }
 
-    public function toggleReceivedAjax(MoneyRecord $moneyRecord)
+        public function toggleReceivedAjax(MoneyRecord $moneyRecord)
     {
         if ($moneyRecord->type !== 'living_expense') {
             return response()->json([
@@ -153,8 +168,7 @@ class MoneyRecordController extends Controller
         return response()->json([
             'success' => true,
             'is_received' => $moneyRecord->is_received,
-            'status_text' => $moneyRecord->is_received ? '受取済み' : '未確認',
-            'button_text' => $moneyRecord->is_received ? '未確認に戻す' : '受け取った',
+            'button_text' => $moneyRecord->is_received ? '未受け取り' : '受け取り済',
         ]);
     }
 }

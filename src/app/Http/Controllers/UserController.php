@@ -36,4 +36,13 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success', 'ユーザーを登録しました。');
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', "「{$user->name}」を削除しました。");
+    }
 }
