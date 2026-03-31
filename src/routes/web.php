@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ChoreController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('money-records.index');
 });
 
 // ── 管理者ログイン（認証不要） ──────────────────────────
